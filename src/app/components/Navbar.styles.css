@@ -1,0 +1,20 @@
+.nav-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background-color: skyblue;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  line-height: 32px;
+  height: 56px;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

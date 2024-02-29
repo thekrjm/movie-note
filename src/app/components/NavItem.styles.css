@@ -1,0 +1,12 @@
+.items-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
+.nav-item {
+  padding: 8px;
+  text-align: center;
+}
