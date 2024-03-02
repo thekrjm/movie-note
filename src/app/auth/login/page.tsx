@@ -2,19 +2,16 @@
 import './login.style.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { accessTokenState } from '@/commons/token';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Cookie from 'js-cookie';
 import Link from 'next/link';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('thekrjm@naver.com');
+  const [password, setPassword] = useState('fbwpaks1');
   const router = useRouter();
-
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-
+  
+  
   const loginHandleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -32,24 +29,23 @@ const LoginPage = () => {
         email,
         password,
       });
-
-      // 받아온 accessToken을 globalState에 저장하기
+      console.log("로그인 데이터",data);
+      
       if (data.accessToken === undefined) {
         alert('로그인에 실패했습니다.');
         return;
       }
-      setAccessToken(data?.accessToken);
-
       // 로그인 성공 페이지로 이동
       if (data && data.accessToken) {
+        //쿠키 글로벌로 저장
         Cookie.set('accessToken', data.accessToken, { expires: 6 });
-        router.push('/');
+        router.push('/')
       }
-      console.log('로그인 리스폰', data);
     } catch (error) {
       console.log(error);
     }
   };
+  
   const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };

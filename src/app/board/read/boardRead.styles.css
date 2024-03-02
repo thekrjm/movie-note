@@ -1,0 +1,28 @@
+.container {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* border-left: 1px solid rgb(234, 234, 234);
+  border-right: 1px solid rgb(234, 234, 234); */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-row{
+  display: flex;
+  flex-direction: row;
+  height: 52px;
+  line-height: 52px;
+  border-bottom: 1px solid #ccc;
+}
+
+.list-basic{
+  text-align: center;
+  width: 10%;
+}
+
+.list-title{
+  text-align: center;
+  width: 70%;
+  cursor: pointer;
+}
