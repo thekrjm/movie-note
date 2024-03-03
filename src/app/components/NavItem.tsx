@@ -8,6 +8,7 @@ import { getCookie } from '../util/CookieUtils';
 
 const NavItem = () => {
   const token = getCookie('accessToken');
+  
   const [accessToken, setAccessToken] = useState(token || null)
 
   const onClickLogoutHandler = () => {
@@ -19,24 +20,28 @@ const NavItem = () => {
     <ul className='items-container'>
         <li className='nav-item'>
           {accessToken ? (
-            <Link href='/pages/boardWrite'>
+            <Link href='/board/write'>
               영화 리뷰 작성
             </Link>
           ) : (
             <Link href='/auth/login'>
-              로그인
-            </Link>    
+              영화 리뷰 작성
+            </Link>   
           )}
         </li>
-      {accessToken && (
         <li className='nav-item'>
-            <div onClick={onClickLogoutHandler}>
-              <Link href='/'>
-                로그아웃
-              </Link>
-            </div>
+        {accessToken ? (
+          <div onClick={onClickLogoutHandler}>
+            <Link href='/'>
+              로그아웃
+            </Link>
+          </div>
+          ):(
+          <Link href='/auth/login'>
+            로그인
+          </Link>
+        )}    
         </li>
-      )}
     </ul>
   );
 };

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Cookie from 'js-cookie';
 import Link from 'next/link';
+import { loginApi } from '@/app/api/movie-note-api';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('thekrjm@naver.com');
@@ -23,12 +24,12 @@ const LoginPage = () => {
       alert('비밀번호를 입력해주세요.');
     }
 
-    const url = 'https://movie-note-api.keyworddiary.com/api/v1/auth/login';
+    const loginData = {
+      email,
+      password
+    }
     try {
-      const { data } = await axios.post(url, {
-        email,
-        password,
-      });
+      const {data} = await loginApi(loginData)
       console.log("로그인 데이터",data);
       
       if (data.accessToken === undefined) {
