@@ -1,4 +1,4 @@
-.container{
+.container {
   position: relative;
   margin-right: auto;
   margin-left: auto;
@@ -8,25 +8,24 @@
   width: 1200px;
 }
 
-.title-desc{
+.title-desc {
   font-size: 20px;
   font-weight: 200;
   margin-bottom: 20px;
   color: #ccc;
 }
 
-.title-wrapper{
-  margin: 50px 50px ;
+.title-wrapper {
+  margin: 50px 50px;
 }
 
-
-.title{
+.title {
   margin-top: 20px;
   font-size: 40px;
   color: #472fff;
 }
 
-.profile-wrapper{
+.profile-wrapper {
   margin: 50px 50px;
   display: flex;
   align-items: center;
@@ -35,31 +34,40 @@
   border-bottom: 1px solid #e4e4e4;
 }
 
-.profile-content{
+.profile-content {
   display: flex;
   align-items: center;
 }
 
-.profile-name{
+.profile-name {
   text-align: center;
   margin-left: 5px;
   font-size: 20px;
   color: #a5a5a5;
-
 }
 
-.date-wrapper{
+.date-wrapper {
   color: #a5a5a5;
 }
 
-.profile-img{
+.profile-img {
   width: 30px;
   height: 30px;
 }
 
-.content-wrapper{
+.content-wrapper {
   margin: 50px 50px;
   padding: 20px 20px;
   color: #a5a5a5;
+}
 
+.like-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom {
+  height: 500px;
+  text-align: center;
+  justify-content: center;
 }
