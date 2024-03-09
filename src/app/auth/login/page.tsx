@@ -39,7 +39,7 @@ const LoginPage = () => {
       // 로그인 성공 페이지로 이동
       if (data && data.accessToken) {
         //쿠키 글로벌로 저장
-        Cookie.set('accessToken', data.accessToken, { expires: 6 });
+       const token = Cookie.set('accessToken', data.accessToken, { expires: 6 });
         router.push('/')
       }
     } catch (error) {

@@ -1,0 +1,41 @@
+.reply-read-container{
+  /* background-color: #f5f5f5fa; */
+  margin: 10px 50px;
+}
+
+.reply-wrapper{
+  padding: 25px 0 15px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.profile-box{
+  display: flex;
+}
+
+.reply-profile-img{
+  width: 20px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.reply-nickname{
+  font-weight: 700;
+}
+
+.reply-content{
+  font-size: 16px;
+}
+
+.reply-write-time{
+  color: #ccc;
+  font-size: 12px;
+}
+
+.delete-btn-wrapper{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete-btn{
+  font-size: 14px;
+}

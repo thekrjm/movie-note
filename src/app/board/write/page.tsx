@@ -1,18 +1,15 @@
 'use client';
 import { createPost } from '@/app/api/movie-note-api';
 import './boardWrite.styles.css';
-import { getCookie } from '@/app/util/CookieUtils';
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
+import Cookies from "js-cookie"
 
 const boardWrite = () => {
   const [title, setTitle] = useState('');
   const [content, setContents] = useState('');
 
-  const token = getCookie('accessToken');
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const token = Cookies.get('accessToken');
 
   const postData = {
     title,
@@ -23,10 +20,6 @@ const boardWrite = () => {
 
   const boardWriteSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // const url = 'https://movie-note-api.keyworddiary.com//api/v1/session-member/movie-reviews'
-    // const response = await axios.post(url, postData, {
-    //   headers:headers
-    // })
 
     const response = await createPost(postData, token!!);
     console.log('작성 게시물', response);

@@ -1,9 +1,11 @@
 import './detailPage.styles.css';
-import { getPostId } from '@/app/api/movie-note-api';
+import { getPostId, reviewStatistics } from '@/app/api/movie-note-api';
 import LikeButtonToggle from '@/app/components/LikeButtonToggle';
-import LikeButton from '@/app/components/LikeButtonToggle';
 import { getTimeComponent } from '@/lib/utils';
+import ReplyReadPage from '@/replies/ReplyReadPage';
+import ReplyWritePage from '@/replies/ReplyWritePage';
 import { GetServerSidePropsContext } from 'next';
+import { cookies } from 'next/headers'
 
 const DetailPage = async (context: GetServerSidePropsContext) => {
   let { params } = context;
@@ -11,17 +13,31 @@ const DetailPage = async (context: GetServerSidePropsContext) => {
     return;
   }
 
-  const response = await getPostId(params.id as string);
-  let { data } = response;
+  const cookieStore = cookies()
+  const token = cookieStore.get('accessToken')?.value
 
+  // param valid check
+  if (params.id == undefined || Array.isArray(params.id) || token === undefined) {
+    return;
+  }
+
+  const getReviewRes = await getPostId(params.id ,token );
+  let { data } = getReviewRes;
+
+  const reviewStatisticsRes = await reviewStatistics(data?.id, token);
+  let { data: statistics } = reviewStatisticsRes;
+
+  
+  if (statistics.likeTotal <= -1) {
+    statistics.likeTotal = 0;
+    console.log("likeTotal", statistics.likeTotal);
+  };
+  
   return (
     <section className='container'>
       <div className='title-wrapper'>
         <span className='title-desc'>영화에 대한 나의 생각은</span>
         <div className='title'>{data.title}</div>
-        <LikeButtonToggle data={data} id={data.id}>
-          좋아요
-        </LikeButtonToggle>
       </div>
       <div className='profile-wrapper'>
         <div className='profile-content'>
@@ -33,7 +49,14 @@ const DetailPage = async (context: GetServerSidePropsContext) => {
         </div>
       </div>
       <div className='content-wrapper'>{data.content}</div>
-      <div className='like-wrapper'></div>
+      <div className='like-wrapper'>
+        <LikeButtonToggle reviewId={data.id} likeIdValue={data.likeId} isLikeValue={data.isLike} />
+        <span>댓글 수: { statistics.replyTotal}</span>
+        <span>추천 수: { statistics.likeTotal}</span>
+        <span>조회 수: {statistics.viewsTotal}</span>
+      </div>
+      <ReplyWritePage reviewId={data.id} />
+      <ReplyReadPage reviewId={data.id} />
     </section>
   );
 };
