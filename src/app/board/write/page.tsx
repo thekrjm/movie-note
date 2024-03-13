@@ -3,11 +3,14 @@ import { createPost } from '@/app/api/movie-note-api';
 import './boardWrite.styles.css';
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
-import Cookies from "js-cookie"
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
-const boardWrite = () => {
+const BoardWrite = () => {
   const [title, setTitle] = useState('');
   const [content, setContents] = useState('');
+
+  const router = useRouter();
 
   const token = Cookies.get('accessToken');
 
@@ -16,13 +19,12 @@ const boardWrite = () => {
     content,
   };
 
-  console.log('토큰', token);
-
   const boardWriteSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const response = await createPost(postData, token!!);
-    console.log('작성 게시물', response);
+    console.log(response);
+    router.push('/');
   };
 
   const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +49,7 @@ const boardWrite = () => {
             placeholder='제목을 입력해주세요.'
           />
         </div>
-        <div>
+        <div className='content-wrapper'>
           <div className='contents-box'>
             <textarea
               className='textarea-contents'
@@ -69,4 +71,4 @@ const boardWrite = () => {
   );
 };
 
-export default boardWrite;
+export default BoardWrite;

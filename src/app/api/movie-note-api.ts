@@ -13,14 +13,14 @@ export interface PostRepliesData {
   content: string;
 }
 
-const baseURL = 'https://movie-note-api.keyworddiary.com'
+const baseURL = 'https://movie-note-api.keyworddiary.com';
 
 const apiInstance: AxiosInstance = axios.create({
-  baseURL
-})
+  baseURL,
+});
 
 export const loginApi = (data: LoginData) => {
-  const url = '/api/v1/auth/login'; 
+  const url = '/api/v1/auth/login';
   return apiInstance.post(url, data);
 };
 
@@ -33,73 +33,103 @@ export const createPost = (data: PostData, accessToken: string) => {
   });
 };
 
+export const userDataApi = (accessToken: string) => {
+  const url = `/api/v1/session-member`;
+  return apiInstance.get(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
 export const getPost = (pageSize: number, query?: string) => {
   const url = '/api/v1/movie-reviews';
   return apiInstance.get(url, {
     params: {
       page: 0,
       size: pageSize,
-      query
+      query,
     },
-  })
+  });
 };
 
-export const getPostId = (id: string, accessToken:string) => {
+export const getPostId = (id: string, accessToken: string) => {
   const url = `/api/v1/movie-reviews/${id}`;
-  return apiInstance.get(url,{ 
+  return apiInstance.get(url, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
 };
 
 export const postLike = (id: number, accessToken: string) => {
   const url = `/api/v1/movie-reviews/${id}/likes`;
-  return apiInstance.post(url,{},{
+  return apiInstance.post(
+    url,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+};
+
+export const deleteLikeApi = (
+  id: number,
+  likeId: number,
+  accessToken: string,
+) => {
+  const url = `/api/v1/movie-reviews/${id}/likes/${likeId}`;
+  return apiInstance.delete(url, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
 };
 
-export const deleteLikeApi = (id:number, likeId:number, accessToken:string) => {
-  const url = `/api/v1/movie-reviews/${id}/likes/${likeId}`;
-  return apiInstance.delete(url,{
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-}
-
-export const reviewStatistics = (id:number, accessToken:string) => {
+export const reviewStatistics = (id: number, accessToken: string) => {
   const url = `/api/v1/movie-reviews/${id}/statistics`;
   return apiInstance.get(url, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  })
-}
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
 
-export const postReplies = (id:number,data:PostRepliesData,accessToken:string) => {
+export const postReplies = (
+  id: number,
+  data: PostRepliesData,
+  accessToken: string,
+) => {
   const url = `/api/v1/movie-reviews/${id}/replies`;
-  return apiInstance.post(url,data, {
+  return apiInstance.post(url, data, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  })
-}
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
 
-export const getRepliesApi = (id:number) => {
+export const getRepliesApi = (id: number, replySize: number, query: string) => {
   const url = `/api/v1/movie-reviews/${id}/replies`;
-  return apiInstance.get(url)
-}
+  return apiInstance.get(url, {
+    params: {
+      page: 0,
+      size: replySize,
+      query,
+    },
+  });
+};
 
-export const deleteReplyApi = (id: number, replyId: number, accessToken:string) => {
+export const deleteReplyApi = (
+  id: number,
+  replyId: number,
+  accessToken: string,
+) => {
   const url = `/api/v1/movie-reviews/${id}/replies/${replyId}`;
   return apiInstance.delete(url, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  } )
-  
-}
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

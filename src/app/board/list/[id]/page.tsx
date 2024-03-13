@@ -4,35 +4,43 @@ import LikeButtonToggle from '@/app/components/LikeButtonToggle';
 import { getTimeComponent } from '@/lib/utils';
 import ReplyReadPage from '@/replies/ReplyReadPage';
 import ReplyWritePage from '@/replies/ReplyWritePage';
-import { GetServerSidePropsContext } from 'next';
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 
-const DetailPage = async (context: GetServerSidePropsContext) => {
-  let { params } = context;
+const DetailPage = async ({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { size: number; query: string };
+}) => {
+  const { size, query } = searchParams;
   if (params?.id == undefined) {
     return;
   }
 
-  const cookieStore = cookies()
-  const token = cookieStore.get('accessToken')?.value
+  const cookieStore = cookies();
+  const token = cookieStore.get('accessToken')?.value;
 
   // param valid check
-  if (params.id == undefined || Array.isArray(params.id) || token === undefined) {
+  if (
+    params.id == undefined ||
+    Array.isArray(params.id) ||
+    token === undefined
+  ) {
     return;
   }
 
-  const getReviewRes = await getPostId(params.id ,token );
+  const getReviewRes = await getPostId(params.id, token);
   let { data } = getReviewRes;
 
   const reviewStatisticsRes = await reviewStatistics(data?.id, token);
   let { data: statistics } = reviewStatisticsRes;
 
-  
   if (statistics.likeTotal <= -1) {
     statistics.likeTotal = 0;
-    console.log("likeTotal", statistics.likeTotal);
-  };
-  
+    console.log('likeTotal', statistics.likeTotal);
+  }
+
   return (
     <section className='container'>
       <div className='title-wrapper'>
@@ -50,13 +58,17 @@ const DetailPage = async (context: GetServerSidePropsContext) => {
       </div>
       <div className='content-wrapper'>{data.content}</div>
       <div className='like-wrapper'>
-        <LikeButtonToggle reviewId={data.id} likeIdValue={data.likeId} isLikeValue={data.isLike} />
-        <span>댓글 수: { statistics.replyTotal}</span>
-        <span>추천 수: { statistics.likeTotal}</span>
+        <LikeButtonToggle
+          reviewId={data.id}
+          likeIdValue={data.likeId}
+          isLikeValue={data.isLike}
+        />
+        <span>댓글 수: {statistics.replyTotal}</span>
+        <span>추천 수: {statistics.likeTotal}</span>
         <span>조회 수: {statistics.viewsTotal}</span>
       </div>
       <ReplyWritePage reviewId={data.id} />
-      <ReplyReadPage reviewId={data.id} />
+      <ReplyReadPage reviewId={data.id} replySize={size || 0} query={query} />
     </section>
   );
 };
