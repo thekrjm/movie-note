@@ -1,40 +1,47 @@
 'use client';
-import { getPost } from '@/app/api/movie-note-api';
-import React, { useEffect, useState } from 'react';
+import './SearchList.styles.css'
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, useState } from 'react';
 
-const SearchList = ({
-  pageSize,
-  query,
-}: {
-  pageSize: number;
-  query: string;
-}) => {
+type Direction = 'DESC' | 'ASC'
+
+const SearchList = () => {
   const [keyword, setKeyword] = useState('');
-  const [searchList, setSearchList] = useState([]);
+  const router = useRouter()
+  const submitSearch = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    router.push(`/?query=${keyword}`)
+    setKeyword('')
+  }
+  
+  // const reOrderByCreatedDateTime = (direction: Direction) => {
+  //   router.push(`/?query=${keyword}&sort=createdDateTime,${direction}`)
+  // }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getPost(pageSize, query);
-      // console.log('검색페이지 데이터', data.list);
-      setSearchList(data.list);
-    };
-    fetchData();
-  }, []);
-  // console.log('검색결과', searchList[0].title);
+  const onChangeKeywordHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value)
+  }
 
-  const result = searchList.filter((value) => value.title.includes(keyword));
-  // console.log('result', result);
   return (
-    <div>
-      검색창
-      <form>
-        <input
-          style={{ backgroundColor: 'red' }}
-          type='text'
-          onChange={(e) => setKeyword(e.target.value)}
-        />
+    <section className='search-container'>
+      <form onSubmit={submitSearch} className='search-form'>
+        <div className='search-box'>
+          <input
+            type='text'
+            value={keyword}
+            onChange={onChangeKeywordHandler}
+            className='search-input'
+            placeholder='검색어를 입력해주세요.'
+          />
+          <button className='search-btn' type='submit'>
+            <img src='/search.png' className='search-img' />
+          </button>
+        </div>
       </form>
-    </div>
+{/* 
+      <button onClick={() => reOrderByCreatedDateTime('ASC')}>오래된순</button>
+      <button onClick={() => reOrderByCreatedDateTime('DESC')}>최신순</button> */}
+    </section>
   );
 };
 

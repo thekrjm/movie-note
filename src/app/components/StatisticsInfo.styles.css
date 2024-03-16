@@ -1,0 +1,8 @@
+.statistics-container{
+  display: flex;
+}
+
+.statistics-item{
+  padding-right: 10px;
+  color: #767676;
+}

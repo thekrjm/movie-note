@@ -40,7 +40,6 @@ const RegisterPage = () => {
   };
   const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-    console.log(password);
   };
 
   return (

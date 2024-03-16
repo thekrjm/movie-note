@@ -6,6 +6,7 @@
   border-right: 1px solid rgb(234, 234, 234); */
   margin-left: auto;
   margin-right: auto;
+  padding: 20px;
 }
 
 .list-row{
@@ -25,4 +26,10 @@
   text-align: center;
   width: 70%;
   cursor: pointer;
+}
+
+.pageSize-text{
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
 }

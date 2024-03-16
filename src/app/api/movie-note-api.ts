@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 export interface PostData {
   title: string;
   content: string;
+  uploadFileIds: number[  ]
 }
 export interface LoginData {
   email: string;
@@ -13,7 +14,7 @@ export interface PostRepliesData {
   content: string;
 }
 
-const baseURL = 'https://movie-note-api.keyworddiary.com';
+export const baseURL = 'https://movie-note-api.keyworddiary.com';
 
 const apiInstance: AxiosInstance = axios.create({
   baseURL,
@@ -42,16 +43,26 @@ export const userDataApi = (accessToken: string) => {
   });
 };
 
-export const getPost = (pageSize: number, query?: string) => {
+export const getPost = (pageSize: number, query?: string, sort?: string) => {
   const url = '/api/v1/movie-reviews';
   return apiInstance.get(url, {
     params: {
       page: 0,
       size: pageSize,
       query,
+      sort
     },
   });
 };
+
+export const deleteReviewApi = (id: number, accessToken: string) => {
+  const url = `/api/v1/session-member/movie-reviews/${id}`
+  return apiInstance.delete(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+}
 
 export const getPostId = (id: string, accessToken: string) => {
   const url = `/api/v1/movie-reviews/${id}`;
@@ -106,19 +117,14 @@ export const postReplies = (
   return apiInstance.post(url, data, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
     },
   });
 };
 
-export const getRepliesApi = (id: number, replySize: number, query: string) => {
+export const getRepliesApi = (id: number) => {
   const url = `/api/v1/movie-reviews/${id}/replies`;
-  return apiInstance.get(url, {
-    params: {
-      page: 0,
-      size: replySize,
-      query,
-    },
-  });
+  return apiInstance.get(url);
 };
 
 export const deleteReplyApi = (
@@ -133,3 +139,19 @@ export const deleteReplyApi = (
     },
   });
 };
+
+export type FileType = 'MOVIE_REVIEW_IMAGE' | 'MEMBER_PROFILE_IMAGE'
+
+export const updateFileApi = (formData: FormData, fileType: FileType, accessToken: string) => {
+  const url = `/api/v1/upload-files`
+  return apiInstance.post(url, formData, {
+    params: {
+      fileType
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+
+}

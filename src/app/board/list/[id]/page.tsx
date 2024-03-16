@@ -1,10 +1,12 @@
 import './detailPage.styles.css';
-import { getPostId, reviewStatistics } from '@/app/api/movie-note-api';
+import { getPostId } from '@/app/api/movie-note-api';
 import LikeButtonToggle from '@/app/components/LikeButtonToggle';
+import StatisticsInfo from '@/app/components/StatisticsInfo';
 import { getTimeComponent } from '@/lib/utils';
-import ReplyReadPage from '@/replies/ReplyReadPage';
-import ReplyWritePage from '@/replies/ReplyWritePage';
+import ReplyReadPage from '@/app/replies/ReplyReadPage';
+import ReplyWritePage from '@/app/replies/ReplyWritePage';
 import { cookies } from 'next/headers';
+import DeleteReview from '@/app/components/DeleteReview';
 
 const DetailPage = async ({
   params,
@@ -29,23 +31,18 @@ const DetailPage = async ({
   ) {
     return;
   }
-
+  
   const getReviewRes = await getPostId(params.id, token);
   let { data } = getReviewRes;
 
-  const reviewStatisticsRes = await reviewStatistics(data?.id, token);
-  let { data: statistics } = reviewStatisticsRes;
-
-  if (statistics.likeTotal <= -1) {
-    statistics.likeTotal = 0;
-    console.log('likeTotal', statistics.likeTotal);
-  }
-
+  console.log("dataaaaa",data);
+  
   return (
     <section className='container'>
       <div className='title-wrapper'>
         <span className='title-desc'>영화에 대한 나의 생각은</span>
         <div className='title'>{data.title}</div>
+        <DeleteReview movieReviewId ={data.id} />
       </div>
       <div className='profile-wrapper'>
         <div className='profile-content'>
@@ -57,18 +54,21 @@ const DetailPage = async ({
         </div>
       </div>
       <div className='content-wrapper'>{data.content}</div>
+      {data?.uploadFileList[0]?.url ? 
+      <img src={data?.uploadFileList[0]?.url} />
+        :
+        <></>
+    }
       <div className='like-wrapper'>
         <LikeButtonToggle
           reviewId={data.id}
           likeIdValue={data.likeId}
           isLikeValue={data.isLike}
         />
-        <span>댓글 수: {statistics.replyTotal}</span>
-        <span>추천 수: {statistics.likeTotal}</span>
-        <span>조회 수: {statistics.viewsTotal}</span>
+        <StatisticsInfo reviewId={data.id} />
       </div>
       <ReplyWritePage reviewId={data.id} />
-      <ReplyReadPage reviewId={data.id} replySize={size || 0} query={query} />
+      <ReplyReadPage reviewId={data.id} />
     </section>
   );
 };

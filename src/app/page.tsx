@@ -1,18 +1,19 @@
+import { redirect } from 'next/navigation';
 import BoardRead from './board/list/page';
-import SearchList from './components/searchList';
+import { Suspense } from 'react';
+
+export const dynamic = 'force-dynamic'
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { size: number; query: string };
+    searchParams: { size: number; query: string; sort: string; };
 }) {
-  const { size, query } = searchParams;
-  // console.log('searchParams', searchParams);
-
+  const { size, query, sort } = searchParams;
+  
   return (
     <main>
-      <SearchList pageSize={size || 10} query={query} />
-      <BoardRead pageSize={size || 10} query={query} />
+        <BoardRead pageSize={size || 10} query={query} sort={sort} />
     </main>
   );
 }

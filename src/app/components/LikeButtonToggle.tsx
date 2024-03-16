@@ -17,10 +17,9 @@
       }
       if (isLike) {
         await deleteLikeApi(reviewId, likeId, token);
-        
       } else {
-        const res = await postLike(reviewId, token);
-        setLikeId(res.data.id)
+        const response = await postLike(reviewId, token);
+        setLikeId(response.data.id)
       }
       setIsLike(!isLike)
     };

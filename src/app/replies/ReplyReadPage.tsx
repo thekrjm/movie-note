@@ -9,17 +9,15 @@ import Link from 'next/link';
 
 interface IRepluReadPageProps {
   reviewId: number;
-  replySize: number;
-  query: string;
 }
 
-const ReplyReadPage = ({ reviewId, replySize, query }: IRepluReadPageProps) => {
+const ReplyReadPage = ({ reviewId }: IRepluReadPageProps) => {
   const [replyList, setReplyList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getRepliesApi(reviewId, replySize, query);
+        const { data } = await getRepliesApi(reviewId);
         setReplyList(data.list);
       } catch (error) {
         console.log('에러 발생', error);
@@ -27,9 +25,11 @@ const ReplyReadPage = ({ reviewId, replySize, query }: IRepluReadPageProps) => {
     };
     fetchData();
   }, [reviewId]);
-
+  
   const token = Cookies.get('accessToken');
   if (token === undefined) return;
+
+  
 
   const deleteReplyHandler = async (replyId: number) => {
     try {
@@ -69,7 +69,6 @@ const ReplyReadPage = ({ reviewId, replySize, query }: IRepluReadPageProps) => {
           </div>
         ))}
       </div>
-      <div>{<Link href={`?size=${+replySize + 10}`}>더보기</Link>}</div>
     </section>
   );
 };

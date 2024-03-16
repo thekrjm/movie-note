@@ -2,7 +2,11 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  background-color: skyblue;
+  height: 100px;
+  border-bottom: 1px solid rgb(32, 70, 225);
+  border-width: 0 0 5px 0;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
@@ -11,10 +15,14 @@
   font-size: 24px;
   line-height: 32px;
   height: 56px;
+  margin-left: 20px;
+  margin-top: 10px;
 }
 
 .nav-items {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-right: 20px;
+  width: 100%;
 }

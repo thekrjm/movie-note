@@ -1,0 +1,36 @@
+.search-container{
+  display: flex;
+}
+
+.search-text{
+  margin-right: 10px;
+}
+
+.search-form{
+  display: flex;
+}
+
+.search-box{
+  position: relative;
+  border: 2px solid rgb(32, 70, 225);
+  width: 300px;
+  height: 40px;
+  align-items: center;
+  padding: 6px 3px 6px 3px;
+}
+
+.search-input{
+  /* border: 2px solid rgb(32, 70, 225); */
+  padding-right: 20px;
+  outline: none;
+  width: 260px;
+}
+
+.search-btn{
+  position: absolute;
+}
+
+.search-img{
+  width: 25px;
+  height: 25px;
+}

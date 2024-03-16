@@ -53,7 +53,7 @@ const LoginPage = () => {
   const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-
+  
   return (
     <section className='container'>
       <span className='title'>MOVIE NOTE LOGIN</span>

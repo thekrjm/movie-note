@@ -2,7 +2,7 @@ import './Navbar.styles.css';
 import Link from 'next/link';
 import React from 'react';
 import NavItem from './NavItem';
-import SearchListPage from '../board/searchPage/page';
+import SearchList from './SearchList';
 
 const Navbar = () => {
   return (
@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className='logo'>
           <Link href='/'>무비노트</Link>
         </div>
-        <div>{/* <SearchListPage /> */}</div>
+        <div><SearchList /></div>
         <div>
           <NavItem />
         </div>
