@@ -8,15 +8,13 @@ type Direction = 'DESC' | 'ASC'
 const SearchList = () => {
   const [keyword, setKeyword] = useState('');
   const router = useRouter()
+
   const submitSearch = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (keyword.length == 0) return;
     router.push(`/?query=${keyword}`)
     setKeyword('')
   }
-  
-  // const reOrderByCreatedDateTime = (direction: Direction) => {
-  //   router.push(`/?query=${keyword}&sort=createdDateTime,${direction}`)
-  // }
 
   const onChangeKeywordHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value)
@@ -38,9 +36,6 @@ const SearchList = () => {
           </button>
         </div>
       </form>
-{/* 
-      <button onClick={() => reOrderByCreatedDateTime('ASC')}>오래된순</button>
-      <button onClick={() => reOrderByCreatedDateTime('DESC')}>최신순</button> */}
     </section>
   );
 };

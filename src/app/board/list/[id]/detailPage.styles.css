@@ -1,4 +1,4 @@
-.container {
+.detail-container {
   position: relative;
   margin-right: auto;
   margin-left: auto;
@@ -58,9 +58,22 @@
 }
 
 .content-wrapper {
-  margin: 50px 50px;
-  padding: 20px 20px;
+  padding: 30px 30px;
   color: #a5a5a5;
+  width: 50%;
+  border-left: 1px solid #c5c5c5;
+}
+
+.image-wrapper{
+  width: 50%;
+  padding: 30px 30px;
+}
+
+.content-image-box{
+  display: flex;
+  padding: 20px 50px;
+  margin-bottom: 50px;
+  width: 1200px;
 }
 
 .like-wrapper {
@@ -75,3 +88,4 @@
   text-align: center;
   justify-content: center;
 }
+

@@ -1,18 +1,26 @@
 import './Navbar.styles.css';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavItem from './NavItem';
 import SearchList from './SearchList';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
+
+  const [isLoggedIn, setIsLoggedin] = useState();
+
   return (
     <nav className='nav-container'>
-      <div className='nav-items'>
+      <div className='nav-box'>
         <div className='logo'>
-          <Link href='/'>무비노트</Link>
+          <Link href='/' className='logo-text'>
+            <div>MOVIE</div>
+            <div>NOTE</div>
+          </Link>
         </div>
-        <div><SearchList /></div>
-        <div>
+        <SearchList />
+        <div className='navItem-wrapper'>
           <NavItem />
         </div>
       </div>

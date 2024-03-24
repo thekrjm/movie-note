@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 export interface PostData {
   title: string;
   content: string;
-  uploadFileIds: number[  ]
+  uploadFileIds: number[]
 }
 export interface LoginData {
   email: string;
@@ -25,7 +25,7 @@ export const loginApi = (data: LoginData) => {
   return apiInstance.post(url, data);
 };
 
-export const createPost = (data: PostData, accessToken: string) => {
+export const createPostApi = (data: PostData, accessToken: string) => {
   const url = `/api/v1/session-member/movie-reviews`;
   return apiInstance.post(url, data, {
     headers: {
@@ -34,7 +34,7 @@ export const createPost = (data: PostData, accessToken: string) => {
   });
 };
 
-export const userDataApi = (accessToken: string) => {
+export const getUserDataApi = (accessToken: string) => {
   const url = `/api/v1/session-member`;
   return apiInstance.get(url, {
     headers: {
@@ -43,7 +43,7 @@ export const userDataApi = (accessToken: string) => {
   });
 };
 
-export const getPost = (pageSize: number, query?: string, sort?: string) => {
+export const getMovieReviewApi = ( pageSize:number, query?: string, sort?: string) => {
   const url = '/api/v1/movie-reviews';
   return apiInstance.get(url, {
     params: {
@@ -64,12 +64,18 @@ export const deleteReviewApi = (id: number, accessToken: string) => {
   })
 }
 
-export const getPostId = (id: string, accessToken: string) => {
+export const getPostId = (id: number, accessToken: string | null) => {
+
+  let headers;
+  if (accessToken) {
+    headers = {
+      Authorization: `Bearer ${accessToken}`,
+    }
+  }
+  
   const url = `/api/v1/movie-reviews/${id}`;
   return apiInstance.get(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers,
   });
 };
 
@@ -108,7 +114,7 @@ export const reviewStatistics = (id: number, accessToken: string) => {
   });
 };
 
-export const postReplies = (
+export const createReplyApi = (
   id: number,
   data: PostRepliesData,
   accessToken: string,
@@ -117,14 +123,19 @@ export const postReplies = (
   return apiInstance.post(url, data, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'application/json'
     },
   });
 };
 
-export const getRepliesApi = (id: number) => {
+export const getRepliesApi = (id: number, page:number) => {
   const url = `/api/v1/movie-reviews/${id}/replies`;
-  return apiInstance.get(url);
+  return apiInstance.get(url, {
+    params: {
+      page: page + 1,
+      size:10
+    }
+  });
 };
 
 export const deleteReplyApi = (

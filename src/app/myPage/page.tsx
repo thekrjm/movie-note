@@ -2,21 +2,26 @@
 
 import React, { useEffect, useState } from 'react';
 import { getCookie } from '../util/CookieUtils';
-import { userDataApi } from '../api/movie-note-api';
+import { getUserDataApi } from '../api/movie-note-api';
 
-const maPage = () => {
-  const [myPageInfo, setMyPageInfo] = useState(null);
+interface IUserInfo{
+  nickname: string
+  email: string
+}
+
+const myPage = () => {
+  const [myPageInfo, setMyPageInfo] = useState<IUserInfo | null>(null);
   const token = getCookie('accessToken');
-  if (token === undefined) return;
+  if (token === undefined) return null;
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await userDataApi(token);
+      const { data } = await getUserDataApi(token);
       setMyPageInfo(data);
-      //   console.log('내정보', data);
     };
     fetchData();
   }, []);
+  
   return (
     <section>
       <div>닉네임:{myPageInfo?.nickname}</div>
@@ -25,4 +30,4 @@ const maPage = () => {
   );
 };
 
-export default maPage;
+export default myPage;

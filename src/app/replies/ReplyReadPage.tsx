@@ -5,36 +5,67 @@ import { deleteReplyApi, getRepliesApi } from '@/app/api/movie-note-api';
 import { getTimeComponent } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import Link from 'next/link';
 
-interface IRepluReadPageProps {
+interface IReplyReadPageProps {
   reviewId: number;
 }
 
-const ReplyReadPage = ({ reviewId }: IRepluReadPageProps) => {
-  const [replyList, setReplyList] = useState([]);
+type IReplyListType={
+  content: string
+  createdDateTime:string
+  id: number
+  member: {
+    email: string
+    id: number
+    nickname: string
+  }
+  updatedDateTime:string
+}
+
+const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
+  const [replyList, setReplyList] = useState<IReplyListType[]>([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasMorePage, setHasMorePage] = useState(true);
+  const [page, setPage] = useState(0)
+
+
+  const fetchData = async () => {
+      if (isLoading) return;
+      setIsLoading(true)
+      try {
+        const { data } = await getRepliesApi(reviewId,page);
+        if (data.list.length < 10) {
+          setHasMorePage(false)
+        }
+        setReplyList((prevList)=>[...prevList, ...data.list]);
+        setPage((prevPage) => prevPage + 1)        
+      } catch (error) {
+          console.log('댓글 로딩 에러 발생', error);
+      } finally {
+        setIsLoading(false)
+      }
+      
+  };
+  
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await getRepliesApi(reviewId);
-        setReplyList(data.list);
-      } catch (error) {
-        console.log('에러 발생', error);
+    const handleScroll = () => {
+      const isScrollEnded =  window.innerHeight + window.scrollY  >= document.body.offsetHeight
+      if (isScrollEnded && hasMorePage && !isLoading) {
+        fetchData()
       }
-    };
-    fetchData();
-  }, [reviewId]);
-  
-  const token = Cookies.get('accessToken');
-  if (token === undefined) return;
+    }
+    window.addEventListener('scroll', handleScroll);
+    return ()=> window.removeEventListener('scroll', handleScroll)
+  },[isLoading])
 
   
+  const token = Cookies.get('accessToken');
 
   const deleteReplyHandler = async (replyId: number) => {
     try {
-      await deleteReplyApi(reviewId, replyId, token);
-      const { data } = await getRepliesApi(reviewId);
+      await deleteReplyApi(reviewId, replyId, token!!);
+      const { data } = await getRepliesApi(reviewId,page);
       setReplyList(data.list);
     } catch (error) {
       console.log('삭제 에러 발생', error);

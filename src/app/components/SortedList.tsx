@@ -1,8 +1,7 @@
 'use client'
 import './SortedList.styles.css'
 import { useRouter } from 'next/navigation'
-import React from 'react'
-import { Button, Flex } from 'antd';
+import React from 'react';
 
 interface ISortedListProps {
   query?: string
@@ -30,12 +29,10 @@ const SortedList = ({query="",pageSize}:ISortedListProps) => {
 
   return (
     <div className='sort-container'>
-      <Flex gap="small">
-        <Button onClick={() => onClickCreatedDate('DESC')}>최신 순</Button>
-        <Button onClick={() => onClickCreatedDate('ASC')}>오래된 순</Button>
-        <Button onClick={() => onClickReplyStatistics('DESC')}>댓글 많은 순</Button>
-        <Button onClick={() => onClickLikeStatistics('DESC')}>좋아요 많은 순</Button>
-      </Flex>
+      <button className='sort-btn' onClick={() => onClickCreatedDate('DESC')}>최신 순</button>
+      <button className='sort-btn' onClick={() => onClickCreatedDate('ASC')}>오래된 순</button>
+      <button className='sort-btn' onClick={() => onClickReplyStatistics('DESC')}>댓글 많은 순</button>
+      <button className='sort-btn' onClick={() => onClickLikeStatistics('DESC')}>좋아요 많은 순</button>
     </div>
   )
 }

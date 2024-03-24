@@ -12,7 +12,7 @@ interface moviewReviewProps{
 const DeleteReview = (movieReviewId:moviewReviewProps) => {
   const router = useRouter()
   const deleteReviewId = movieReviewId.movieReviewId
-
+  
 
   const token = getCookie('accessToken');
   if (token === undefined) return;

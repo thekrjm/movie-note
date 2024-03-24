@@ -1,10 +1,11 @@
 'use client';
-import { createPost, updateFileApi } from '@/app/api/movie-note-api';
+import { createPostApi, updateFileApi } from '@/app/api/movie-note-api';
 import './boardWrite.styles.css';
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { revalidateTag } from 'next/cache';
 
 const BoardWrite = () => {
   const [title, setTitle] = useState('');
@@ -20,7 +21,7 @@ const BoardWrite = () => {
       title, content, uploadFileIds
     }
     
-    const response = await createPost(postData, token!!);
+    const response = await createPostApi(postData, token!!);
     router.push(`/`);
   };
 

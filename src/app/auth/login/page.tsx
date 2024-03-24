@@ -1,13 +1,13 @@
 'use client';
 import './login.style.css';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Cookie from 'js-cookie';
 import Link from 'next/link';
 import { loginApi } from '@/app/api/movie-note-api';
 
-const LoginPage = () => {
+
+const LoginPage = ({closeLoginModal}:any) => {
   const [email, setEmail] = useState('thekrjm@naver.com');
   const [password, setPassword] = useState('fbwpaks1');
   const router = useRouter();
@@ -39,8 +39,9 @@ const LoginPage = () => {
       // 로그인 성공 페이지로 이동
       if (data && data.accessToken) {
         //쿠키 글로벌로 저장
-       const token = Cookie.set('accessToken', data.accessToken, { expires: 6 });
-        router.push('/')
+        const token = Cookie.set('accessToken', data.accessToken, { expires: 6 });
+        closeLoginModal()
+        router.refresh();
       }
     } catch (error) {
       console.log(error);
@@ -55,8 +56,9 @@ const LoginPage = () => {
   };
   
   return (
-    <section className='container'>
-      <span className='title'>MOVIE NOTE LOGIN</span>
+    <section className='login-container'>
+      <span className='login-title'>MOVIE NOTE LOGIN</span>
+      <button onClick={closeLoginModal} className='login-close-button'>Xxxx</button>
       <div className='login-box'>
         <form onSubmit={loginHandleSubmit}>
           <div>
@@ -64,6 +66,7 @@ const LoginPage = () => {
             <input
               type='text'
               id='email'
+              className='login-input'
               value={email}
               required
               onChange={onChangeEmail}
@@ -72,6 +75,7 @@ const LoginPage = () => {
           <div>
             <label>PASSWORD</label>
             <input
+              className='login-input'
               type='password'
               id='password'
               value={password}
@@ -79,7 +83,7 @@ const LoginPage = () => {
               onChange={onChangePassword}
             />
           </div>
-          <button className='submit-btn' type='submit'>
+          <button className='login-btn' type='submit'>
             LOGIN
           </button>
         </form>

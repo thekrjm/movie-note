@@ -11,13 +11,13 @@ const StatisticsInfo = ({ reviewId }: { reviewId: number }) => {
   const [viewStatistics, setViewStatistics] = useState(0);
 
   const token = getCookie('accessToken')
-  if (token == undefined) return;
+  // if (token == undefined) return;  
 
   if (likeStatistics < 0) likeStatistics === 0;
 
   useEffect(() => {
     const fetchData = async () => {
-      const {data} = await reviewStatistics(reviewId, token);
+      const {data} = await reviewStatistics(reviewId, token!!);
       setReplyStatistics(data.replyTotal);
       if (data.likeTotal < 0) {
         setLikeStatistics(0)
@@ -28,7 +28,6 @@ const StatisticsInfo = ({ reviewId }: { reviewId: number }) => {
     }
     fetchData()
   },[reviewId])
-
   return (
     <div className='statistics-container'>
         <span className='statistics-item'>댓글 수:{replyStatistics}</span>

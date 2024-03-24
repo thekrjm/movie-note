@@ -9,36 +9,27 @@ import { cookies } from 'next/headers';
 import DeleteReview from '@/app/components/DeleteReview';
 
 const DetailPage = async ({
-  params,
-  searchParams,
+  params
 }: {
-  params: any;
-  searchParams: { size: number; query: string };
-}) => {
-  const { size, query } = searchParams;
-  if (params?.id == undefined) {
-    return;
-  }
+  params: { id: number }
+  }) => {
 
   const cookieStore = cookies();
   const token = cookieStore.get('accessToken')?.value;
 
-  // param valid check
-  if (
-    params.id == undefined ||
-    Array.isArray(params.id) ||
-    token === undefined
-  ) {
+  // 잘못된 파라미터인가? 그러면 return한다
+  // number 형식이 아니거나, undefined 거나, null 이거나, array 이거나
+  const isNotValidParameter = isNaN(params.id) || !params.id || Array.isArray(params.id)
+  if (isNotValidParameter) {
     return;
   }
   
-  const getReviewRes = await getPostId(params.id, token);
+  // token이 null이어도 호출가능해야함 (null 허용)
+  const getReviewRes = await getPostId(params.id, token || null);
   let { data } = getReviewRes;
 
-  console.log("dataaaaa",data);
-  
   return (
-    <section className='container'>
+    <section className='detail-container'>
       <div className='title-wrapper'>
         <span className='title-desc'>영화에 대한 나의 생각은</span>
         <div className='title'>{data.title}</div>
@@ -53,12 +44,16 @@ const DetailPage = async ({
           {getTimeComponent(data.createdDateTime)}
         </div>
       </div>
-      <div className='content-wrapper'>{data.content}</div>
-      {data?.uploadFileList[0]?.url ? 
-      <img src={data?.uploadFileList[0]?.url} />
-        :
-        <></>
-    }
+      <div className='content-image-box'>
+      <div className='image-wrapper'>
+        {data?.uploadFileList[0]?.url ? 
+          <img src={data?.uploadFileList[0]?.url} />
+          :
+          <></>
+        }
+        </div>
+        <div className='content-wrapper'>{data.content}</div>
+        </div>
       <div className='like-wrapper'>
         <LikeButtonToggle
           reviewId={data.id}
@@ -68,7 +63,7 @@ const DetailPage = async ({
         <StatisticsInfo reviewId={data.id} />
       </div>
       <ReplyWritePage reviewId={data.id} />
-      <ReplyReadPage reviewId={data.id} />
+      <ReplyReadPage reviewId={data.id}/>
     </section>
   );
 };
