@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { deleteReviewApi } from '../api/movie-note-api'
-import { getCookie } from '../util/CookieUtils'
+import { deleteReviewApi } from '../../../api/movie-note-api'
+import { getCookie } from '../../../util/CookieUtils'
 import { useRouter } from 'next/navigation'
 
 interface moviewReviewProps{
@@ -32,7 +32,7 @@ const DeleteReview = (movieReviewId:moviewReviewProps) => {
   }
   
   return (
-    <button onClick={onClickDeleteRieview}>삭제하기</button>
+    <button style={{textAlign:'right', marginBottom: '10px'}} onClick={onClickDeleteRieview}>삭제하기</button>
   )
 }
 

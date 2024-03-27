@@ -21,7 +21,6 @@ const ReplyWritePage = (data: any) => {
     const response = await createReplyApi(data.reviewId, {content}, token);
     console.log("댓글 입력", response);
     setContent("")
-
   }
   return (
     <section className='reply-container'>

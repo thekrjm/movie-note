@@ -1,9 +1,9 @@
 'use client';
 
 import './ReplyReadPage.styles.css';
-import { deleteReplyApi, getRepliesApi } from '@/app/api/movie-note-api';
+import { deleteReplyApi, getRepliesApi, updateReplyApi } from '@/app/api/movie-note-api';
 import { getTimeComponent } from '@/lib/utils';
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 interface IReplyReadPageProps {
@@ -27,7 +27,8 @@ const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [hasMorePage, setHasMorePage] = useState(true);
   const [page, setPage] = useState(0)
-
+  const [updateReplyId, setUpdateReplyId] = useState<number | null>(null)
+  const [updateContent, setUpdateContent] = useState("");
 
   const fetchData = async () => {
       if (isLoading) return;
@@ -37,6 +38,9 @@ const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
         if (data.list.length < 10) {
           setHasMorePage(false)
         }
+        setUpdateReplyId(data.list.id) 
+        console.log("댓글리스트",data.list);
+               
         setReplyList((prevList)=>[...prevList, ...data.list]);
         setPage((prevPage) => prevPage + 1)        
       } catch (error) {
@@ -46,8 +50,7 @@ const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
       }
       
   };
-  
-
+    
   useEffect(() => {
     const handleScroll = () => {
       const isScrollEnded =  window.innerHeight + window.scrollY  >= document.body.offsetHeight
@@ -72,6 +75,31 @@ const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
     }
   };
 
+  const onChangeUpdataContentInput = (event:ChangeEvent<HTMLInputElement>) =>{
+    setUpdateContent(event.target.value)
+  }
+
+  const updateReplyHandler = (replyId:number, content:string)=>{
+    setUpdateReplyId(replyId)
+    setUpdateContent(content)
+    console.log(updateContent);
+    console.log(replyId);
+    
+  }
+
+  const updateReplySubmitHandler = async() =>{
+    try {
+      await updateReplyApi(reviewId, updateReplyId!!, updateContent, token!!)
+      const {data} = await getRepliesApi(reviewId, page);
+      setReplyList(data.list);
+      setUpdateContent("");
+      setUpdateReplyId(null)
+    }catch(error){
+      console.log("replyUpdateError", error);
+      
+    }
+  }
+
   return (
     <section className='reply-read-container'>
       <div>
@@ -85,17 +113,30 @@ const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
               />
               <div className='reply-nickname'>{reply.member.nickname}</div>
             </div>
+            {updateReplyId === reply.id ? (
+              <div className='update-content-box'>
+                <input className='updateContent-input' type='text' value={updateContent} onChange={onChangeUpdataContentInput}/>
+                <button className='updateContent-button' onClick={updateReplySubmitHandler}>수정</button>
+              </div>
+            ) :
             <div className='reply-content'>{reply.content}</div>
+            }
             <div className='reply-write-time'>
               {getTimeComponent(reply.createdDateTime)}{' '}
             </div>
             <div className='delete-btn-wrapper'>
+              <button 
+                className='update-btn'
+                onClick={()=>updateReplyHandler(reply.id, reply.content)}
+              >수정</button>
               <button
                 className='delete-btn'
                 onClick={() => deleteReplyHandler(reply.id)}
               >
-                삭제
+              삭제
               </button>
+            </div>
+            <div>           
             </div>
           </div>
         ))}

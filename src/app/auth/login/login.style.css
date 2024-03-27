@@ -1,22 +1,29 @@
-/* section {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(255, 255, 255);
-} */
 
 .login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: skyblue;
+  background-color: rgb(253, 253, 253);
   position: relative;
-  width: 600px;
-  height: 840px;
+  width: 450px;
+  height: 640px;
+  border-radius: 10px;
 }
 
-.title {
+.login-title {
   font-size: 35px;
   padding: 20px;
+  font-size: 24px;
+  line-height: 32px;
+  height: 56px;
+  margin-bottom: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.login-title > span:nth-child(1){
+  color: red;
+  padding-right: 7px;
 }
 
 .login-box {
@@ -33,7 +40,7 @@
   margin-top: 5px;
   padding: 15px;
   font-size: 16px;
-  border: 2px solid #ccc;
+  background-color: #ebebeb;
   border-radius: 3px;
   outline: none;
 }
@@ -47,10 +54,12 @@
   height: 60px;
   margin-bottom: 20px;
   padding: 15px;
-  background-color: beige;
+  background-color: rgb(255, 0, 0);
+  border: none;
 }
 
 .registerLink-box {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
 }
@@ -66,6 +75,6 @@
 
 .login-close-button{
   position: fixed;
-  top: 28%;
-  right: 40%;
+  top: 15%;
+  right: 37%;
 }

@@ -11,6 +11,7 @@ const BoardWrite = () => {
   const [title, setTitle] = useState('');
   const [content, setContents] = useState('');
   const [uploadFileIds, setUploadFileIds] = useState<number[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string|ArrayBuffer|null>('');
 
   const router = useRouter();
   const token = Cookies.get('accessToken');
@@ -37,6 +38,19 @@ const BoardWrite = () => {
     // change event에서 파일 정보 가져오기
     const file = event.target.files!![0];
 
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      // 파일을 Base64로 변환한 이미지를 state에 저장
+      setSelectedImage(reader.result);
+    };
+
+    console.log("reader.result",reader.result);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
+
     // formData 생성 (주로 파일전송에 사용됨)
     const formData = new FormData();
     formData.append('file', file);
@@ -45,7 +59,7 @@ const BoardWrite = () => {
     const response = await updateFileApi(formData, 'MOVIE_REVIEW_IMAGE', token!!)
 
     // 전달받은 imageId는 글을 쓸때 함께 전송됨 (boardWrite)
-    const imageId = response.data!!.id
+    const imageId = response.data.id
     setUploadFileIds(prevUploadFileIds=>[...prevUploadFileIds, imageId])
   }
 
@@ -65,6 +79,11 @@ const BoardWrite = () => {
         </div>
         <div className='content-wrapper'>
           <div className='contents-box'>
+            <div className='select-img-box'>
+              {selectedImage && (
+                <img className='select-img'  src={selectedImage} alt="선택한 이미지" />
+               )}
+            </div>
             <textarea
               className='textarea-contents'
               id='contents'
@@ -73,11 +92,9 @@ const BoardWrite = () => {
               onChange={onChangeContents}
               placeholder='감상평을 작성해보세요.'
             />
-            <div>
-              <input type='file'  accept='image/*' onChange={onSelectFile} />
-            </div>
           </div>
           <div className='btn-wrap'>
+            <input type='file'  accept='image/*' onChange={onSelectFile} />
             <button className='submit-btn' type='submit'>
               저장하기
             </button>

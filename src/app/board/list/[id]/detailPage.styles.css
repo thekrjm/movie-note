@@ -24,7 +24,7 @@
 .title {
   margin-top: 20px;
   font-size: 40px;
-  color: #472fff;
+  color: #ff2f2f;
 }
 
 .profile-wrapper {
@@ -50,6 +50,10 @@
 
 .date-wrapper {
   color: #a5a5a5;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
 }
 
 .profile-img {

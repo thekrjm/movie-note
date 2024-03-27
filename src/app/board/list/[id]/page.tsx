@@ -1,12 +1,12 @@
 import './detailPage.styles.css';
-import { getPostId } from '@/app/api/movie-note-api';
+import { getPostIdApi, viewTotalApi } from '@/app/api/movie-note-api';
 import LikeButtonToggle from '@/app/components/LikeButtonToggle';
 import StatisticsInfo from '@/app/components/StatisticsInfo';
 import { getTimeComponent } from '@/lib/utils';
 import ReplyReadPage from '@/app/replies/ReplyReadPage';
 import ReplyWritePage from '@/app/replies/ReplyWritePage';
 import { cookies } from 'next/headers';
-import DeleteReview from '@/app/components/DeleteReview';
+import DeleteReview from '@/app/board/list/component/DeleteReview';
 
 const DetailPage = async ({
   params
@@ -23,17 +23,17 @@ const DetailPage = async ({
   if (isNotValidParameter) {
     return;
   }
-  
+
   // token이 null이어도 호출가능해야함 (null 허용)
-  const getReviewRes = await getPostId(params.id, token || null);
-  let { data } = getReviewRes;
+
+    const getReviewRes = await getPostIdApi(params.id, token || null);
+    let { data } = getReviewRes;
 
   return (
     <section className='detail-container'>
       <div className='title-wrapper'>
         <span className='title-desc'>영화에 대한 나의 생각은</span>
         <div className='title'>{data.title}</div>
-        <DeleteReview movieReviewId ={data.id} />
       </div>
       <div className='profile-wrapper'>
         <div className='profile-content'>
@@ -41,6 +41,7 @@ const DetailPage = async ({
           <div className='profile-name'>{data.member.nickname}</div>
         </div>
         <div className='date-wrapper'>
+          <DeleteReview movieReviewId ={data.id} />
           {getTimeComponent(data.createdDateTime)}
         </div>
       </div>

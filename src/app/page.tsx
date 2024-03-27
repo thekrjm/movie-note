@@ -1,4 +1,5 @@
 import BoardRead from './board/list/page';
+import ReviewList from './board/list/page'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,8 +11,8 @@ export default async function Home({
   const { size, query, sort, page } = searchParams;
   
   return (
-    <main style={{display:'flex', flexDirection:'column', padding:'0 20px'}}>
-      <BoardRead pageSize={size || 10} query={query} sort={sort}/>
+    <main style={{height:'100%'}}>
+      <ReviewList pageSize={size || 10} query={query} sort={sort}/>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 'use client'
 import './StatisticsInfo.styles.css'
 import React, { useEffect, useState } from 'react'
-import { reviewStatistics } from '../api/movie-note-api';
+import { reviewStatistics, viewTotalApi } from '../api/movie-note-api';
 import { getCookie } from '../util/CookieUtils';
 
 const StatisticsInfo = ({ reviewId }: { reviewId: number }) => {
@@ -17,14 +17,17 @@ const StatisticsInfo = ({ reviewId }: { reviewId: number }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const {data} = await reviewStatistics(reviewId, token!!);
-      setReplyStatistics(data.replyTotal);
-      if (data.likeTotal < 0) {
-        setLikeStatistics(0)
-      } else {
-        setLikeStatistics(data.likeTotal);
+      if(token){
+        const {data} = await reviewStatistics(reviewId, token);
+        const viewCount = await viewTotalApi(reviewId);        
+        setReplyStatistics(data.replyTotal);
+        if (data.likeTotal < 0) {
+          setLikeStatistics(0)
+        } else {
+          setLikeStatistics(data.likeTotal);
+        }
+        setViewStatistics(data.viewsTotal);
       }
-      setViewStatistics(data.viewsTotal);
     }
     fetchData()
   },[reviewId])

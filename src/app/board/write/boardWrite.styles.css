@@ -8,11 +8,15 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  border-left: 1px solid rgb(234, 234, 234);
-  border-right: 1px solid rgb(234, 234, 234);
+  height: 100%;
+  width: 100%;
+  max-width: 1500px;
+  min-width: 1200px;
+  border: 1px solid rgb(234, 234, 234);
+  /* border-bottom: none; */
   margin-left: auto;
   margin-right: auto;
+  margin-top: 30px;
 }
 
 .title {
@@ -28,7 +32,7 @@ section {
 }
 
 .title-box {
-  padding: 0 100px;
+  padding: 0 50px;
   min-width: 400px;
 }
 
@@ -41,22 +45,38 @@ section {
   width: 100%;
 }
 
-.content-wrapper {
-  /* border-bottom: 1px solid #ccc; */
+.content-wrapper{
+  height: 100%;
 }
 
 .contents-box {
-  padding: 0 100px;
+  display: flex;
+  /* align-items: center; */
+  padding: 0 50px;
+}
+
+.select-img-box{
+  width: 50%;
+  height: 70%;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-img{
+  width: 100%;
   height: 100%;
 }
 
 .textarea-contents {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 50%;
+  height: 70%;
   min-height: 600px;
+  max-width: 1500px;
   outline: none;
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
   margin-bottom: 30px;
 }
 
@@ -67,8 +87,11 @@ input {
 
 .btn-wrap {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
+  height: 120px;
+  padding: 0 50px;
+  margin-top: 30px;
 }
 
 .submit-btn {
@@ -76,10 +99,7 @@ input {
   display: block;
   width: 100px;
   height: 60px;
-  padding: 15px;
   box-shadow: inset;
   border: 1px solid #ccc;
   text-align: center;
-  margin-right: 100px;
-  /* margin-top: 50px; */
 }

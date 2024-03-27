@@ -39,3 +39,30 @@
 .delete-btn{
   font-size: 14px;
 }
+
+.update-btn{
+  font-size: 14px;
+  margin-right: 7px;
+}
+
+.update-content-box{
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100px;
+  padding: 2px;
+}
+
+.updateContent-input{
+  height: 50px;
+  outline: none;
+  /* background-color: #ececec; */
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.updateContent-button{
+  background-color: #ccc;
+  /* box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); */
+  /* background-color: blue; */
+}

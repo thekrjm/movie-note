@@ -1,7 +1,7 @@
 'use client';
 import './login.style.css';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Cookie from 'js-cookie';
 import Link from 'next/link';
 import { loginApi } from '@/app/api/movie-note-api';
@@ -11,6 +11,7 @@ const LoginPage = ({closeLoginModal}:any) => {
   const [email, setEmail] = useState('thekrjm@naver.com');
   const [password, setPassword] = useState('fbwpaks1');
   const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
   
   
   const loginHandleSubmit = async (event: React.FormEvent) => {
@@ -55,10 +56,29 @@ const LoginPage = ({closeLoginModal}:any) => {
     setPassword(event.target.value);
   };
   
+  const outsideClickLoginModalOff = (event:MouseEvent)=>{
+    if(modalRef.current && !modalRef.current.contains(event.target as Node)){
+      closeLoginModal()
+    }
+  }
+
+  useEffect(()=>{
+    document.addEventListener("mousedown", outsideClickLoginModalOff);
+    return ()=> document.addEventListener("mousedown", outsideClickLoginModalOff)
+  },[])
+
   return (
     <section className='login-container'>
-      <span className='login-title'>MOVIE NOTE LOGIN</span>
-      <button onClick={closeLoginModal} className='login-close-button'>Xxxx</button>
+      <div ref={modalRef} className='login-modal-wrapper'>
+      <button onClick={closeLoginModal} className='login-close-button'>X</button>
+      <span className='login-title'>
+        <span>
+          MOVIE
+          </span> 
+        <span>
+         NOTE LOGIN
+          </span> 
+        </span>
       <div className='login-box'>
         <form onSubmit={loginHandleSubmit}>
           <div>
@@ -93,6 +113,7 @@ const LoginPage = ({closeLoginModal}:any) => {
             가입하기
           </Link>
         </div>
+      </div>
       </div>
     </section>
   );

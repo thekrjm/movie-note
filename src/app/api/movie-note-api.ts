@@ -55,7 +55,13 @@ export const getMovieReviewApi = ( pageSize:number, query?: string, sort?: strin
   });
 };
 
-export const deleteReviewApi = (id: number, accessToken: string) => {
+
+export const viewTotalApi = (id:number)=>{
+    const url = `/api/v1/movie-reviews/${id}/statistics/views-total`;
+    return apiInstance.patch(url)
+}
+
+export const deleteReviewApi = (id: number, accessToken: string | null) => {
   const url = `/api/v1/session-member/movie-reviews/${id}`
   return apiInstance.delete(url, {
     headers: {
@@ -64,7 +70,7 @@ export const deleteReviewApi = (id: number, accessToken: string) => {
   })
 }
 
-export const getPostId = (id: number, accessToken: string | null) => {
+export const getPostIdApi = (id: number, accessToken: string | null) => {
 
   let headers;
   if (accessToken) {
@@ -137,6 +143,16 @@ export const getRepliesApi = (id: number, page:number) => {
     }
   });
 };
+
+export const updateReplyApi =( id:number, replyId:number, content:string, accessToken:string)=>{
+  const url = `/api/v1/movie-reviews/${id}/replies/${replyId}`;
+  return apiInstance.patch(url, content, {
+    headers:{
+      Authorization: `Bearer ${accessToken}`,
+      'content-type': 'text/html'
+    }
+  })
+}
 
 export const deleteReplyApi = (
   id: number,

@@ -1,11 +1,10 @@
-import MainPageMovieReviewList from '@/app/components/MainPageMovieReviewList';
-import './boardRead.styles.css';
+import './reviewList.styles.css';
 import { getMovieReviewApi} from '@/app/api/movie-note-api';
 import SortedList from '@/app/components/SortedList';
 import { getDateComponent } from '@/lib/utils';
 import Link from 'next/link';
 
-const BoardRead = async ({
+const ReviewList = async ({
   pageSize,
   query,
   sort,
@@ -16,14 +15,13 @@ const BoardRead = async ({
   }) => {
   const {data} = await getMovieReviewApi(pageSize, query, sort);
   
-    // console.log("readPageData", data.list);
+    // console.log(data);
     
 
   return (
     <section className='list-container'>
+      <span className='movieReview-title'>영화 리뷰 목록</span>
       <SortedList query={query} pageSize={pageSize} />
-      {/* <MainPageMovieReviewList movieReviewData={data} /> */}
-      <div className='list-wrapper'>
         <div className='contents-wrapper' >
           {data.list.map((value: any) => (
           <div key={value.id} className='contents-items'>             
@@ -45,19 +43,19 @@ const BoardRead = async ({
             </div>
           </div>
           ))}
-          <div className='moreAddPage'>
+        </div>
         {data.pageInfo.last === true ? (
-          <></>
+          <div className='more-page-box'></div>
           ) : (
-          <div className='pageSize-text'>
-            <Link href={`?&size=${+pageSize + 10}`}>더보기</Link>
+          <div className='more-page-box'>
+            <Link className='pageSize-text' href={`?&size=${+pageSize + 10}`}>
+              <span className='morePage-btn'>더보기</span>
+              <img className='arrow-down' src='/arrow-down.png' />
+            </Link>
           </div>
         )}
-        </div>
-        </div>
-        </div>
     </section>
   );
 };
 
-export default BoardRead;
+export default ReviewList;
