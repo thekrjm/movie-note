@@ -1,10 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 
 export interface PostData {
-  title: string;
-  content: string;
+    title: string;
+    content: string;
   uploadFileIds: number[]
 }
+
 export interface LoginData {
   email: string;
   password: string;
@@ -85,7 +86,7 @@ export const getPostIdApi = (id: number, accessToken: string | null) => {
   });
 };
 
-export const postLike = (id: number, accessToken: string) => {
+export const postLikeApi = (id: number, accessToken: string) => {
   const url = `/api/v1/movie-reviews/${id}/likes`;
   return apiInstance.post(
     url,
@@ -111,7 +112,7 @@ export const deleteLikeApi = (
   });
 };
 
-export const reviewStatistics = (id: number, accessToken: string) => {
+export const reviewStatisticsApi = (id: number, accessToken: string) => {
   const url = `/api/v1/movie-reviews/${id}/statistics`;
   return apiInstance.get(url, {
     headers: {
@@ -134,22 +135,24 @@ export const createReplyApi = (
   });
 };
 
-export const getRepliesApi = (id: number, page:number) => {
+export const getRepliesApi = (id: number,page:number, abort?: {signal: AbortSignal}) => {
   const url = `/api/v1/movie-reviews/${id}/replies`;
   return apiInstance.get(url, {
+    signal: abort?.signal,
     params: {
       page: page + 1,
-      size:10
+      size: 10,
+      sort: "createdDateTime,DESC"
     }
   });
 };
 
-export const updateReplyApi =( id:number, replyId:number, content:string, accessToken:string)=>{
+export const updateReplyApi =( id:number,replyId:number, content:string, accessToken:string)=>{
   const url = `/api/v1/movie-reviews/${id}/replies/${replyId}`;
   return apiInstance.patch(url, content, {
     headers:{
       Authorization: `Bearer ${accessToken}`,
-      'content-type': 'text/html'
+      'content-type': 'application/json'
     }
   })
 }

@@ -1,33 +1,31 @@
 'use client'
 import './ReplyWritePage.styles.css'
 import { getCookie } from '@/app/util/CookieUtils'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { createReplyApi } from '../api/movie-note-api'
 
-const ReplyWritePage = (data: any) => {
+const ReplyWritePage = ({reviewId}:{reviewId:number}) => {
   const [content, setContent] = useState('');
 
   const onChangeContent = (event:ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value)
   }
+  const token = getCookie('accessToken');  
 
-  const replyWriteSubmit = async (event:FormEvent) => { 
-    event.preventDefault();
-
-    const token = getCookie('accessToken');
-    if (token===undefined) {
-      return;
+  const replyWriteSubmit = async () => { 
+    if (token) {
+      await createReplyApi(reviewId, {content}, token);
+      setContent("")
+    } else {
+      alert("로그인 후 댓글 작성 가능합니다.")
     }
-    const response = await createReplyApi(data.reviewId, {content}, token);
-    console.log("댓글 입력", response);
-    setContent("")
   }
   return (
     <section className='reply-container'>
       <span>댓글</span>
       <form onSubmit={replyWriteSubmit} className='form-wrapper' >
         <div className='content-box'>
-          <textarea className='content-input' onChange={onChangeContent} />
+          <textarea className='content-input' onChange={onChangeContent} required />
         </div>
         <div className='btn-box'>
         <button type='submit' className='submit-btn'>입력</button>

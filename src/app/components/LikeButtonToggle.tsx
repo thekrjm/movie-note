@@ -2,7 +2,7 @@
 
   import './LikeButtonToggle.styles.css';
   import { useState } from 'react';
-  import { deleteLikeApi, postLike } from '../api/movie-note-api';
+  import { deleteLikeApi, postLikeApi } from '../api/movie-note-api';
   import { getCookie } from '../util/CookieUtils';
 
 
@@ -18,7 +18,7 @@
       if (isLike) {
         await deleteLikeApi(reviewId, likeId, token);
       } else {
-        const response = await postLike(reviewId, token);
+        const response = await postLikeApi(reviewId, token);
         setLikeId(response.data.id)
       }
       setIsLike(!isLike)

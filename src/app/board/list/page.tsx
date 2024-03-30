@@ -14,9 +14,6 @@ const ReviewList = async ({
     sort?: string;
   }) => {
   const {data} = await getMovieReviewApi(pageSize, query, sort);
-  
-    // console.log(data);
-    
 
   return (
     <section className='list-container'>
@@ -45,7 +42,7 @@ const ReviewList = async ({
           ))}
         </div>
         {data.pageInfo.last === true ? (
-          <div className='more-page-box'></div>
+          <div></div>
           ) : (
           <div className='more-page-box'>
             <Link className='pageSize-text' href={`?&size=${+pageSize + 10}`}>

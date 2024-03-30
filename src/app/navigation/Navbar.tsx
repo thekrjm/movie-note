@@ -4,31 +4,34 @@ import './Navbar.styles.css';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import NavItem from './NavItem';
-import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { getCookie } from '../util/CookieUtils';
 import LoginPage from '../auth/login/page';
 import SearchList from './components/searchList';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState, isLoggedOutState } from '../recoil/RecoilAtom';
+import { existAccessTokenCookie } from '../util/CookieUtils';
+
 
 const Navbar = () => {
-  const router = useRouter()
-  const [isLoggedIn, setIsLoggedin] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  const token = getCookie('accessToken');
-
-  useEffect(() => {
-      setIsLoggedin(!isLoggedIn)
-  }, [token]);
-
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  
   const onClickLogoutHandler = () => {
     Cookies.remove('accessToken');
-    setIsLoggedin(false)
+    setIsLoggedIn(false)
   };
 
-    const onClickModalSwitch = () => {
+  const onClickModalSwitch = () => {
     setShowModal(!showModal)
   }
+  
+  useEffect(() => {
+    if (existAccessTokenCookie()) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [])
 
   return (
     <nav className='nav-container'>

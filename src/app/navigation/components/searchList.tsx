@@ -3,8 +3,6 @@ import './SearchList.styles.css'
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useState } from 'react';
 
-type Direction = 'DESC' | 'ASC'
-
 const SearchList = () => {
   const [keyword, setKeyword] = useState('');
   const router = useRouter()

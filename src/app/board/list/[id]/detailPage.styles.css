@@ -61,21 +61,24 @@
   height: 30px;
 }
 
-.content-wrapper {
-  padding: 30px 30px;
+.detailPage-contents-wrapper {
+  padding: 30px 50px;
   color: #a5a5a5;
-  width: 50%;
-  border-left: 1px solid #c5c5c5;
+  /* width: 50%; */
 }
 
 .image-wrapper{
-  width: 50%;
-  padding: 30px 30px;
+  width: 570px;
+  padding: 10px 50px;
+}
+
+.image-poster{
+  width: 500px
 }
 
 .content-image-box{
-  display: flex;
-  padding: 20px 50px;
+  /* display: flex; */
+  padding: 20px 0;
   margin-bottom: 50px;
   width: 1200px;
 }
@@ -92,4 +95,3 @@
   text-align: center;
   justify-content: center;
 }
-

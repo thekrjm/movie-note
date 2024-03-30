@@ -31,7 +31,7 @@
   font-size: 12px;
 }
 
-.delete-btn-wrapper{
+.replyUpdateDelete-btns{
   display: flex;
   justify-content: flex-end;
 }

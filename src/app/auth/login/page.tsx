@@ -5,6 +5,8 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Cookie from 'js-cookie';
 import Link from 'next/link';
 import { loginApi } from '@/app/api/movie-note-api';
+import { useRecoilState } from 'recoil';
+import { isLoggedInState } from '@/app/recoil/RecoilAtom';
 
 
 const LoginPage = ({closeLoginModal}:any) => {
@@ -12,7 +14,8 @@ const LoginPage = ({closeLoginModal}:any) => {
   const [password, setPassword] = useState('fbwpaks1');
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
-  
+  const [_, setIsLoggedin] = useRecoilState(isLoggedInState);
+
   
   const loginHandleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,6 +44,7 @@ const LoginPage = ({closeLoginModal}:any) => {
       if (data && data.accessToken) {
         //쿠키 글로벌로 저장
         const token = Cookie.set('accessToken', data.accessToken, { expires: 6 });
+        setIsLoggedin(true)
         closeLoginModal()
         router.refresh();
       }

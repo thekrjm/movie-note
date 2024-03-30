@@ -2,28 +2,23 @@
 
 import React from 'react'
 import { deleteReviewApi } from '../../../api/movie-note-api'
-import { getCookie } from '../../../util/CookieUtils'
 import { useRouter } from 'next/navigation'
 
 interface moviewReviewProps{
-  movieReviewId:number
+  movieReviewId: number
+  token: string | undefined;
 }
 
-const DeleteReview = (movieReviewId:moviewReviewProps) => {
+const DeleteReview = ({movieReviewId,token}:moviewReviewProps) => {
   const router = useRouter()
-  const deleteReviewId = movieReviewId.movieReviewId
-  
-
-  const token = getCookie('accessToken');
-  if (token === undefined) return;
-
+  const deleteReviewId = movieReviewId;
+    
   const onClickDeleteRieview = async (event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault()
     const confirmed = window.confirm("삭제하시겠습니까?") 
     try {
       if (confirmed) {
-        await deleteReviewApi(deleteReviewId, token);
-        // router.push('/')
+        await deleteReviewApi(deleteReviewId, token!!);
         router.replace('/')
       }
     } catch (error) {
@@ -32,7 +27,9 @@ const DeleteReview = (movieReviewId:moviewReviewProps) => {
   }
   
   return (
-    <button style={{textAlign:'right', marginBottom: '10px'}} onClick={onClickDeleteRieview}>삭제하기</button>
+    <div>
+      <button style={{textAlign:'right', marginBottom: '10px'}} onClick={onClickDeleteRieview}>삭제하기</button>
+    </div>
   )
 }
 

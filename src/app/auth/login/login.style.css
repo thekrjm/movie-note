@@ -74,7 +74,7 @@
 }
 
 .login-close-button{
-  position: fixed;
-  top: 15%;
-  right: 37%;
+  position: absolute;
+  top: 10px;
+  right: 15px;
 }

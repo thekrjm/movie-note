@@ -5,7 +5,7 @@ const Footer = () => {
 
 
     <footer style={{ marginTop:'300px', height:'200px',width:'100%', backgroundColor: '#333'}}>
-      <div>Footer</div>
+      <div></div>
     </footer>
   )
 }

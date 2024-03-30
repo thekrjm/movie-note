@@ -3,7 +3,6 @@
   justify-content: center;
   width: 100%;
   align-items: center; 
-  /* margin-right: 30px;  */
 }
 
 .nav-items > div a{
@@ -13,18 +12,13 @@
 }
 
 .nav-items {
+  display: flex;
   cursor: pointer;
   margin-left: 10px;
   justify-content: center;
   align-items: center;
 }
 
-
-
-/* .close-login-modal{
-  position: fixed;
-  float: left;
-  font-size: 28px;
-  font-weight: bold;
-  color: #aaa;
-} */
+.userInfo{
+  font-weight: 700;
+}

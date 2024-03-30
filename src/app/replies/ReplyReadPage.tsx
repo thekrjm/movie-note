@@ -1,109 +1,92 @@
 'use client';
 
 import './ReplyReadPage.styles.css';
-import { deleteReplyApi, getRepliesApi, updateReplyApi } from '@/app/api/movie-note-api';
+import { getRepliesApi, updateReplyApi } from '@/app/api/movie-note-api';
 import { getTimeComponent } from '@/lib/utils';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import ReplyDeleteButton from './ReplyDeleteButton';
+import ReplyUpdateButton  from './ReplyUpdateButton';
+import { IReplyListType } from './replyTypes';
 
-interface IReplyReadPageProps {
-  reviewId: number;
-}
 
-type IReplyListType={
-  content: string
-  createdDateTime:string
-  id: number
-  member: {
-    email: string
-    id: number
-    nickname: string
-  }
-  updatedDateTime:string
-}
 
-const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
+const ReplyReadPage = ({ reviewId }: {reviewId:number}) => {
   const [replyList, setReplyList] = useState<IReplyListType[]>([]);
   const [isLoading, setIsLoading] = useState(false)
   const [hasMorePage, setHasMorePage] = useState(true);
   const [page, setPage] = useState(0)
   const [updateReplyId, setUpdateReplyId] = useState<number | null>(null)
   const [updateContent, setUpdateContent] = useState("");
+  const token = Cookies.get('accessToken');
 
-  const fetchData = async () => {
-      if (isLoading) return;
-      setIsLoading(true)
-      try {
-        const { data } = await getRepliesApi(reviewId,page);
-        if (data.list.length < 10) {
-          setHasMorePage(false)
-        }
-        setUpdateReplyId(data.list.id) 
-        console.log("댓글리스트",data.list);
-               
-        setReplyList((prevList)=>[...prevList, ...data.list]);
-        setPage((prevPage) => prevPage + 1)        
-      } catch (error) {
-          console.log('댓글 로딩 에러 발생', error);
-      } finally {
-        setIsLoading(false)
-      }
-      
-  };
-    
+  let abortController: AbortController
+
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrollEnded =  window.innerHeight + window.scrollY  >= document.body.offsetHeight
-      if (isScrollEnded && hasMorePage && !isLoading) {
-        fetchData()
+    return () => {
+      if (abortController !== null) {
+        abortController?.abort()
       }
     }
+  }, [])
+
+  const fetchData = async () => {
+    if (isLoading) return;
+    setIsLoading(true)
+
+    try {
+      abortController = new AbortController()
+      const { data } = await getRepliesApi(reviewId, page, { signal: abortController.signal });
+      setHasMorePage(!data.pageInfo.last)
+      setUpdateReplyId(data.list.id)          
+      setReplyList((prevList) => {
+        return [...prevList, ...data.list]
+      });
+    } catch (error) {
+        console.log('댓글 로딩 에러 발생', error);
+    } finally {
+      setIsLoading(false)
+    }
+  };
+
+  useEffect(() => {
+    fetchData()
+  }, [page])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrollEnded =  window.innerHeight + window.scrollY >= document.body.offsetHeight
+      if (isScrollEnded && hasMorePage && !isLoading) {
+        setPage(prevPage => prevPage + 1)
+      }
+    }
+
     window.addEventListener('scroll', handleScroll);
     return ()=> window.removeEventListener('scroll', handleScroll)
   },[isLoading])
-
   
-  const token = Cookies.get('accessToken');
-
-  const deleteReplyHandler = async (replyId: number) => {
-    try {
-      await deleteReplyApi(reviewId, replyId, token!!);
-      const { data } = await getRepliesApi(reviewId,page);
-      setReplyList(data.list);
-    } catch (error) {
-      console.log('삭제 에러 발생', error);
-    }
-  };
 
   const onChangeUpdataContentInput = (event:ChangeEvent<HTMLInputElement>) =>{
     setUpdateContent(event.target.value)
   }
 
-  const updateReplyHandler = (replyId:number, content:string)=>{
-    setUpdateReplyId(replyId)
-    setUpdateContent(content)
-    console.log(updateContent);
-    console.log(replyId);
-    
-  }
 
   const updateReplySubmitHandler = async() =>{
     try {
       await updateReplyApi(reviewId, updateReplyId!!, updateContent, token!!)
-      const {data} = await getRepliesApi(reviewId, page);
+      const {data} = await getRepliesApi(reviewId,  page);
       setReplyList(data.list);
       setUpdateContent("");
       setUpdateReplyId(null)
-    }catch(error){
+    } catch(error){
       console.log("replyUpdateError", error);
-      
     }
   }
-
+  
   return (
     <section className='reply-read-container'>
       <div>
-        {replyList.map((reply: any) => (
+        {replyList.map((reply:IReplyListType, replyIndex: number) => (
           <div key={reply.id} className='reply-wrapper'>
             <div className='profile-box'>
               <img
@@ -124,17 +107,9 @@ const ReplyReadPage = ({ reviewId }: IReplyReadPageProps) => {
             <div className='reply-write-time'>
               {getTimeComponent(reply.createdDateTime)}{' '}
             </div>
-            <div className='delete-btn-wrapper'>
-              <button 
-                className='update-btn'
-                onClick={()=>updateReplyHandler(reply.id, reply.content)}
-              >수정</button>
-              <button
-                className='delete-btn'
-                onClick={() => deleteReplyHandler(reply.id)}
-              >
-              삭제
-              </button>
+            <div className='replyUpdateDelete-btns'>
+              <ReplyUpdateButton replyId={reply.id} replyContent={reply.content} setUpdateReplyId={setUpdateReplyId} setUpdateContent={setUpdateContent} />
+              <ReplyDeleteButton replyIndex={replyIndex} reviewId={reviewId} replyId={reply.id} token={token} setReplyList={setReplyList} />
             </div>
             <div>           
             </div>
