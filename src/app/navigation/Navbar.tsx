@@ -5,13 +5,13 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import NavItem from './NavItem'
 import Cookies from 'js-cookie'
-import LoginPage from '../auth/login/page'
 import SearchList from './components/searchList'
 import { useRecoilState } from 'recoil'
-import { isLoggedInState, logginedUserState } from '../recoil/RecoilAtom'
-import { existAccessTokenCookie, getCookie } from '../util/CookieUtils'
+import { logginedUserState } from '../recoil/RecoilAtom'
+import { getCookie } from '../util/CookieUtils'
 import { IUserInfo } from './navItemTypes'
 import { getUserDataApi } from '../api/movie-note-api'
+import LoginPage from '@/components/ui/login/Login'
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false)
