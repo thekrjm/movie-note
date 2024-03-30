@@ -17,7 +17,7 @@ export default async function Home({
         <div className="contents-wrapper">
           <Reviews reviews={data.list} />
         </div>
-        <ReviewsMore />
+        <ReviewsMore pageInfoProps={data.pageInfo} />
       </section>
     </main>
   )
