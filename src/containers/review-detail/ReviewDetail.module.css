@@ -1,0 +1,82 @@
+.container {
+  position: relative;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 100px;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  width: 1200px;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+.titleWrap {
+  margin: 50px 50px;
+}
+
+.title {
+  margin-top: 20px;
+  font-size: 40px;
+  color: #ff0000;
+}
+
+.profileWrap {
+  margin: 50px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.profileBox {
+  display: flex;
+  align-items: center;
+}
+
+.profileName {
+  text-align: center;
+  margin-left: 5px;
+  font-size: 20px;
+  color: #a5a5a5;
+}
+
+.profileImg {
+  width: 30px;
+  height: 30px;
+}
+
+.dateWrap {
+  color: #a5a5a5;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.contentImageBox {
+  padding: 20px 0;
+  margin-bottom: 50px;
+  width: 1200px;
+}
+
+.imageWrap {
+  width: 570px;
+  padding: 10px 50px;
+}
+
+.imagePoster {
+  width: 500px;
+}
+
+.contentsWrap {
+  padding: 30px 50px;
+  color: #a5a5a5;
+}
+
+.likeWrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 50px;
+  gap: 10px;
+}

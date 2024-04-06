@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  align-items: center;
+  background-color: #e7e7e7;
+}
+
+.logo {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  font-size: 50px;
+  margin-left: 140px;
+}
+
+.logo > span:first-child {
+  color: #ff0000;
+  margin-right: 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-left: 50px;
+}

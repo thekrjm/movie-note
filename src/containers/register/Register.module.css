@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+  font-size: 35px;
+  padding: 20px;
+}
+
+.registerBox {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+}
+
+.submitButton {
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: rgb(255, 0, 0);
+}
+
+.registerLinkBox {
+  display: flex;
+  justify-content: center;
+}
+
+.registerLinkBox > span {
+  color: #5a5a5a;
+}
+
+.registerLink {
+  padding: 0 10px;
+  font-weight: 600;
+}

@@ -1,0 +1,26 @@
+.container {
+  margin: 30px 50px;
+}
+
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.contentInput {
+  outline-style: none;
+  border: 1px solid #ccc;
+  width: 100%;
+  height: 100px;
+}
+
+.buttonWrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  background-color: #ccc;
+  width: 50px;
+}

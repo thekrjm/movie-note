@@ -1,0 +1,55 @@
+.container {
+  margin: 10px 50px;
+}
+
+.replyWrap {
+  padding: 25px 0 15px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.profileBox {
+  display: flex;
+}
+
+.profileImg {
+  width: 20px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.nickname {
+  font-weight: 700;
+}
+
+.content {
+  font-size: 16px;
+}
+
+.writeTime {
+  color: #ccc;
+  font-size: 12px;
+}
+
+.updateContentBox {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100px;
+  padding: 2px;
+}
+
+.updateContentInput {
+  height: 50px;
+  outline: none;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.updateContentButton {
+  background-color: #ccc;
+}
+
+.replyUpdateDeleteButton {
+  display: flex;
+  justify-content: flex-end;
+}

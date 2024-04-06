@@ -1,0 +1,87 @@
+.listContainer {
+  width: 100%;
+  max-width: 1500px;
+  min-width: 1200px;
+  height: 100%;
+  padding: 20px 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.movieReviewTitle {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.contentsWrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  gap: 16px;
+}
+
+.listRow {
+  transition: all 0.3s ease;
+  will-change: transform;
+}
+
+.listRow:hover {
+  transform: translateY(-10px);
+}
+
+.listItems {
+  margin-bottom: 20px;
+}
+
+/* .posterWrapper {
+  border: 1px solid red;
+  width: 300px;
+} */
+
+.posterImg {
+  width: 100%;
+  height: 410px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.listTitle {
+  margin-top: 10px;
+  font-weight: 700;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.listBasic {
+  font-size: 14px;
+  color: #7b7979;
+}
+
+.morePageBox {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f1f1f1;
+  border-radius: 0 0 15px 15px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.pageSizeText {
+  padding-top: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.arrowDown {
+  width: 30px;
+}
+
+.morePageButton {
+  padding-top: 2px;
+}

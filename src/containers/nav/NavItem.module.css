@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+.navItems > div a {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.navItems {
+  display: flex;
+  cursor: pointer;
+  margin-left: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.userInfo {
+  font-weight: 700;
+}
